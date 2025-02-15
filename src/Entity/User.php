@@ -1,12 +1,14 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity]
-class User implements PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,12 +21,32 @@ class User implements PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private string $password;
 
-    #[ORM\OneToOne(targetEntity: UserProfile::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?UserProfile $profile = null;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $firstName;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $lastName;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $userName;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $phoneNumber;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $bio;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $avatar;
 
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
     #[ORM\JoinTable(name: 'user_roles')]
     private Collection $roles;
+
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -56,23 +78,96 @@ class User implements PasswordAuthenticatedUserInterface
         $this->password = $password;
     }
 
-    public function getProfile(): ?UserProfile
-    {
-        return $this->profile;
-    }
-
-    public function setProfile(?UserProfile $profile): void
-    {
-        $this->profile = $profile;
-    }
-
-    public function getRoles(): Collection
-    {
-        return $this->roles;
-    }
-
     public function setRoles(Collection $roles): void
     {
         $this->roles = $roles;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(?string $firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    public function getUserName(): ?string
+    {
+        return $this->userName;
+    }
+
+    public function setUserName(?string $userName): void
+    {
+        $this->userName = $userName;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): void
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): void
+    {
+        $this->bio = $bio;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
+    public function eraseCredentials(): void
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles->map(fn($role) => $role->getName())->toArray();
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles->add($role);
+        }
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        $this->roles->removeElement($role);
+        return $this;
     }
 }

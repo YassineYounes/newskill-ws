@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,6 +28,20 @@ class Course
 
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $thumbnail = null;
+
+    #[ORM\Column(type: 'datetime')]
+    private DateTime $createdAt;
+
+    #[ORM\Column(type: 'datetime')]
+    private DateTime $updatedAt;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $createdBy;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $updatedBy;
 
     #[ORM\ManyToOne(targetEntity: Level::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -156,6 +171,47 @@ class Course
     {
         $this->topics = $topics;
     }
+
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function getCreatedBy(): User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(User $createdBy): void
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    public function getUpdatedBy(): User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(User $updatedBy): void
+    {
+        $this->updatedBy = $updatedBy;
+    }
+
 }
 
 
