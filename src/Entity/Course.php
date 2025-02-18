@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use App\Repository\CourseRepository;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: CourseRepository::class)]
 class Course
 {
     #[ORM\Id]
@@ -16,6 +17,9 @@ class Course
 
     #[ORM\Column(type: 'string')]
     private string $title;
+
+    #[ORM\Column(type: 'text')]
+    private string $shortDescription;
 
     #[ORM\Column(type: 'text')]
     private string $description;
@@ -29,11 +33,29 @@ class Course
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $thumbnail = null;
 
+    #[ORM\Column(type: "json", nullable: true)]
+    private ?array $requirements = [];
+
+    #[ORM\Column(type: "json", nullable: true)]
+    private ?array $skills = [];
+
+    #[ORM\Column(type: "boolean", nullable: false)]
+    private bool $certified = false;
+
+    #[ORM\Column(type: "boolean", nullable: false)]
+    private bool $onSale = false;
+
+    #[ORM\Column(type: "integer", nullable: true)]
+    private ?int $salePercentage;
+
     #[ORM\Column(type: 'datetime')]
     private DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime')]
     private DateTime $updatedAt;
+
+    #[ORM\Column(type: "decimal", precision: 3, scale: 1, nullable: true)]
+    private ?float $rating;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -210,6 +232,76 @@ class Course
     public function setUpdatedBy(User $updatedBy): void
     {
         $this->updatedBy = $updatedBy;
+    }
+
+    public function getShortDescription(): string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(string $shortDescription): void
+    {
+        $this->shortDescription = $shortDescription;
+    }
+
+    public function isCertified(): bool
+    {
+        return $this->certified;
+    }
+
+    public function setCertified(bool $certified): void
+    {
+        $this->certified = $certified;
+    }
+
+    public function isOnSale(): bool
+    {
+        return $this->onSale;
+    }
+
+    public function setOnSale(bool $onSale): void
+    {
+        $this->onSale = $onSale;
+    }
+
+    public function getSalePercentage(): ?int
+    {
+        return $this->salePercentage;
+    }
+
+    public function setSalePercentage(?int $salePercentage): void
+    {
+        $this->salePercentage = $salePercentage;
+    }
+
+    public function getRequirements(): ?array
+    {
+        return $this->requirements;
+    }
+
+    public function setRequirements(?array $requirements): void
+    {
+        $this->requirements = $requirements;
+    }
+
+    public function getSkills(): ?array
+    {
+        return $this->skills;
+    }
+
+    public function setSkills(?array $skills): void
+    {
+        $this->skills = $skills;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?float $rating): void
+    {
+        $this->rating = $rating;
     }
 
 }

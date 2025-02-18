@@ -15,14 +15,20 @@ class Lesson
     #[ORM\Column(type: 'string')]
     private string $title;
 
-    #[ORM\Column(type: 'text')]
-    private string $content;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $content;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private string $videoUrl;
 
     #[ORM\Column(type: 'integer')]
     private int $position; // Order in the section
+
+    #[ORM\Column(type: 'boolean')]
+    private bool $canPreview = false;
+
+    #[ORM\Column(type: 'integer')]
+    private int $videoLength = 0;
 
     #[ORM\ManyToOne(targetEntity: Section::class, inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
@@ -48,12 +54,12 @@ class Lesson
         $this->title = $title;
     }
 
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): void
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }
@@ -86,6 +92,31 @@ class Lesson
     public function setSection(Section $section): void
     {
         $this->section = $section;
+    }
+
+    public function getCourse(): Course
+    {
+        return $this->section->getCourse();
+    }
+
+    public function canPreview(): bool
+    {
+        return $this->canPreview;
+    }
+
+    public function setCanPreview(bool $canPreview): void
+    {
+        $this->canPreview = $canPreview;
+    }
+
+    public function getVideoLength(): int
+    {
+        return $this->videoLength;
+    }
+
+    public function setVideoLength(int $videoLength): void
+    {
+        $this->videoLength = $videoLength;
     }
 }
 

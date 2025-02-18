@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Course;
+use App\Entity\Lesson;
+use App\Entity\Section;
 use App\Repository\CourseRepository;
-use App\Repository\LevelRepository;
+use App\Service\CourseService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -18,6 +20,9 @@ use Symfony\Component\HttpFoundation\Response;
 #[Route('/api/courses', name: 'api_courses_')]
 class CourseController extends AbstractController
 {
+    public function __construct(private CourseService $courseService)
+    {
+    }
 //    #[Route('', name: 'list', methods: ['GET'])]
 //    public function list(CourseRepository $courseRepository): JsonResponse
 //    {
@@ -35,25 +40,12 @@ class CourseController extends AbstractController
 //        return $this->json($data);
 //    }
 //
-//    #[Route('/{id}', name: 'show', methods: ['GET'])]
-//    public function show(int $id, CourseRepository $courseRepository): JsonResponse
-//    {
-//        $course = $courseRepository->find($id);
-//
-//        if (!$course) {
-//            return $this->json(['error' => 'Course not found'], Response::HTTP_NOT_FOUND);
-//        }
-//
-//        return $this->json([
-//            'id' => $course->getId(),
-//            'title' => $course->getTitle(),
-//            'description' => $course->getDescription(),
-//            'price' => $course->getPrice(),
-//            'thumbnail' => $course->getThumbnail(),
-//            'level' => $course->getLevel()->getName(),
-//            'created_at' => $course->getCreatedAt()->format('Y-m-d H:i:s'),
-//        ]);
-//    }
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
+    public function show(int $id): JsonResponse
+    {
+        return $this->courseService->show($id);
+
+    }
 //
 //    #[Route('', name: 'create', methods: ['POST'])]
 //    public function create(Request $request, EntityManagerInterface $entityManager, LevelRepository $levelRepository): JsonResponse

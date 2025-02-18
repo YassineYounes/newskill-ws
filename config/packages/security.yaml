@@ -26,13 +26,15 @@ security:
         api:
             pattern:   ^/api
             stateless: true
-            jwt: ~
         main:
             lazy: true
 
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/, roles: PUBLIC_ACCESS }
+        - { path: ^/student/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/teacher/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin/, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

@@ -15,8 +15,8 @@ class Review
     #[ORM\Column(type: 'integer')]
     private int $rating;
 
-    #[ORM\Column(type: 'text')]
-    private string $comment;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $comment;
 
     #[ORM\Column(type: 'datetime')]
     private \DateTime $createdAt;
@@ -49,12 +49,12 @@ class Review
         $this->rating = $rating;
     }
 
-    public function getComment(): string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
 
-    public function setComment(string $comment): void
+    public function setComment(?string $comment): void
     {
         $this->comment = $comment;
     }
