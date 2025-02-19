@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="formation@localhost" uuid="a5df5eb1-e83f-4ea9-8176-7c951e83de35">
+    <data-source source="LOCAL" name="newskill@localhost" uuid="8cc0c6ae-d717-4ba5-bc98-39072f9f8e7e">
       <driver-ref>mysql_aurora.aws_wrapper</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>software.amazon.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:aws-wrapper:mysql://localhost:3306/formation</jdbc-url>
+      <jdbc-url>jdbc:aws-wrapper:mysql://localhost:3306/newskill</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

@@ -88,6 +88,10 @@ class Course
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $sections;
 
+    #[ORM\OneToMany(targetEntity: Review::class, mappedBy: 'course', cascade: ['persist', 'remove'])]
+    #[ORM\OrderBy(['createdAt' => 'ASC'])]
+    private Collection $reviews;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -317,6 +321,37 @@ class Course
     {
         $this->students = $students;
     }
+
+    public function getNumberOfLessons(): int
+    {
+        $numberOfLessons = 0;
+        /** @var Section $section */
+        foreach ($this->sections as $section) {
+            $numberOfLessons+= $section->getNumberOfLessons();
+        }
+        return $numberOfLessons;
+    }
+
+    public function getCourseLength(): int
+    {
+        $length = 0;
+        /** @var Section $section */
+        foreach ($this->sections as $section) {
+            $length+= $section->getSectionLength();
+        }
+        return $length;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function setReviews(Collection $reviews): void
+    {
+        $this->reviews = $reviews;
+    }
+
 }
 
 

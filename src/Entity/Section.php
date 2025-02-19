@@ -94,4 +94,18 @@ class Section
     {
         $this->lessons = $lessons;
     }
+
+    public function getNumberOfLessons(): int
+    {
+        return count($this->lessons);
+    }
+
+    public function getSectionLength(): int
+    {
+        $length = 0;
+        foreach ($this->lessons as $lesson) {
+            $length += $lesson->getVideoLength();
+        }
+        return $length;
+    }
 }

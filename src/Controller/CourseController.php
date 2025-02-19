@@ -23,23 +23,13 @@ class CourseController extends AbstractController
     public function __construct(private CourseService $courseService)
     {
     }
-//    #[Route('', name: 'list', methods: ['GET'])]
-//    public function list(CourseRepository $courseRepository): JsonResponse
-//    {
-//        $courses = $courseRepository->findAll();
-//        $data = array_map(fn($course) => [
-//            'id' => $course->getId(),
-//            'title' => $course->getTitle(),
-//            'description' => $course->getDescription(),
-//            'price' => $course->getPrice(),
-//            'thumbnail' => $course->getThumbnail(),
-//            'level' => $course->getLevel()->getName(),
-//            'created_at' => $course->getCreatedAt()->format('Y-m-d H:i:s'),
-//        ], $courses);
-//
-//        return $this->json($data);
-//    }
-//
+
+    #[Route('', name: 'list', methods: ['GET'])]
+    public function list(): JsonResponse
+    {
+        return $this->courseService->list();
+    }
+
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(int $id): JsonResponse
     {

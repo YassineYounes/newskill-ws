@@ -11,3 +11,4 @@
 
 /config/jwt/*.pem
 .env
+.idea/*
