@@ -43,6 +43,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable(name: 'user_roles')]
     private Collection $roles;
 
+    #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'students')]
+    private Collection $courses;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
@@ -169,5 +172,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roles->removeElement($role);
         return $this;
+    }
+
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = $courses;
     }
 }

@@ -76,6 +76,10 @@ class Course
     #[ORM\JoinColumn(nullable: false)]
     private User $instructor;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'courses')]
+    #[ORM\JoinTable(name: 'student_courses')]
+    private Collection $students;
+
     #[ORM\ManyToOne(targetEntity: Category::class)]
     #[ORM\JoinColumn(nullable: false)]
     private Category $category;
@@ -304,6 +308,15 @@ class Course
         $this->rating = $rating;
     }
 
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function setStudents(Collection $students): void
+    {
+        $this->students = $students;
+    }
 }
 
 

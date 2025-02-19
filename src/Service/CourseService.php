@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Course;
 use App\Entity\Lesson;
+use App\Entity\Review;
 use App\Entity\Section;
 use App\Repository\CourseRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +26,14 @@ class CourseService
             return new JsonResponse(['error' => 'Course not found'], Response::HTTP_NOT_FOUND);
         }
         [$sections, $numberOfLessons, $length] = $this->getSectionsAndLessonsInfos($course);
-
+        $reviews = [];
+        foreach ($this->entityManager->getRepository(Review::class)->findBy(['course' => $course]) as $review) {
+            $reviews[] = [
+                'comment' => $review->getComment(),
+                'rating' => $review->getRating(),
+                'reviewer' => $review->getReviewer()->getFirstName() .  ' ' . $review->getReviewer()->getLastName(),
+            ];
+        }
         return new JsonResponse([
             'title' => $course->getTitle(),
             'description' => $course->getDescription(),
@@ -47,6 +55,8 @@ class CourseService
             'numberOfLessons' =>  $numberOfLessons,
             'courseLength' =>  $length,
             'rating' =>  $course->getRating(),
+            'reviews' =>  $reviews,
+            'studentsNumber' =>  count($course->getStudents()),
         ]);
     }
 
