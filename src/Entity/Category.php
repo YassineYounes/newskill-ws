@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -15,6 +16,9 @@ class Category
 
     #[ORM\Column(type: "string", length: 100, unique: true)]
     private string $name;
+
+    #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'categories')]
+    private Collection $courses;
 
     public function getId(): ?int
     {
@@ -34,6 +38,16 @@ class Category
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function setCourses(Collection $courses): void
+    {
+        $this->courses = $courses;
     }
 }
 

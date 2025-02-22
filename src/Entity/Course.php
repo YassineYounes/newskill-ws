@@ -30,6 +30,9 @@ class Course
     #[ORM\Column(type: 'boolean')]
     private bool $isPublished = false;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $isFree = false;
+
     #[ORM\Column(type: "string", nullable: true)]
     private ?string $thumbnail = null;
 
@@ -80,9 +83,9 @@ class Course
     #[ORM\JoinTable(name: 'student_courses')]
     private Collection $students;
 
-    #[ORM\ManyToOne(targetEntity: Category::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private Category $category;
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'courses')]
+    #[ORM\JoinTable(name: 'courses_categories')]
+    private Collection $categories;
 
     #[ORM\OneToMany(targetEntity: Section::class, mappedBy: 'course', cascade: ['persist', 'remove'])]
     #[ORM\OrderBy(['position' => 'ASC'])]
@@ -150,16 +153,6 @@ class Course
     public function setInstructor(User $instructor): void
     {
         $this->instructor = $instructor;
-    }
-
-    public function getCategory(): Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(Category $category): void
-    {
-        $this->category = $category;
     }
 
     public function getSections(): Collection
@@ -350,6 +343,38 @@ class Course
     public function setReviews(Collection $reviews): void
     {
         $this->reviews = $reviews;
+    }
+
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(Collection $categories): void
+    {
+        $this->categories = $categories;
+    }
+
+    public function getCategoriesNames(): array
+    {
+        if(empty($this->categories)) {
+            return [];
+        }
+        $names = [];
+        foreach ($this->categories as $category) {
+            $names[] =  $category->getName();
+        }
+        return $names;
+    }
+
+    public function isFree(): bool
+    {
+        return $this->isFree;
+    }
+
+    public function setIsFree(bool $isFree): void
+    {
+        $this->isFree = $isFree;
     }
 
 }
