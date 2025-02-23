@@ -61,7 +61,7 @@ class CourseService
             'courseLength' => $course->getCourseLength(),
             'rating' => $course->getRating(),
             'reviews' => $reviews,
-            'studentsNumber' => count($course->getStudents()),
+            'enrollmentsCount' => count($course->getEnrollments()),
         ]);
     }
 
@@ -105,7 +105,6 @@ class CourseService
         $data = array_map(fn($course) => [
             'id' => $course->getId(),
             'title' => $course->getTitle(),
-            'description' => $course->getDescription(),
             'price' => $course->getPrice(),
             'thumbnail' => $course->getThumbnail(),
             'level' => $course->getLevel()->getTitle(),
@@ -117,6 +116,7 @@ class CourseService
             'courseLength' => $course->getCourseLength(),
             'reviewsCount' => count($course->getReviews()),
             'isFree' => $course->isFree(),
+            'enrollmentsCount' => count($course->getEnrollments()),
             'instructor' => [
                 'fullName' => $course->getCreatedBy()->getFullName(),
                 'id' => $course->getCreatedBy()->getId(),

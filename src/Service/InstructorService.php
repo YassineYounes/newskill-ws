@@ -35,7 +35,7 @@ class InstructorService
             'bio' => $instructor->getBio(),
             'fullName' => $instructor->getFullName(),
             'avatar' => $instructor->getAvatar(),
-            'coursesCount' => $instructor->getCourses()->count(),
+            'coursesCount' => $instructor->getTeachingCourses()->count(),
         ], $instructors);
 
         return new JsonResponse($data);

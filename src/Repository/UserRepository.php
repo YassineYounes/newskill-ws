@@ -31,13 +31,13 @@ class UserRepository extends ServiceEntityRepository
     public function findInstructorsWithPublishedCourses(): array
     {
         return $this->createQueryBuilder('u')
-            ->join('u.roles', 'r')  // Join roles table
-            ->join('u.courses', 'c')  // Join courses table
+            ->join('u.roles', 'r')
+            ->join('u.teachingCourses', 'c')
             ->where('r.name = :roleName')
             ->andWhere('c.isPublished = :published')
             ->setParameter('roleName', 'Instructor')
             ->setParameter('published', true)
-            ->distinct() // Ensure unique users
+            ->distinct()
             ->getQuery()
             ->getResult();
     }

@@ -79,9 +79,8 @@ class Course
     #[ORM\JoinColumn(nullable: false)]
     private User $instructor;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'courses')]
-    #[ORM\JoinTable(name: 'student_courses')]
-    private Collection $students;
+    #[ORM\OneToMany(targetEntity: Enrollment::class, mappedBy: 'course', cascade: ['persist', 'remove'])]
+    private Collection $enrollments;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'courses')]
     #[ORM\JoinTable(name: 'courses_categories')]
@@ -305,16 +304,6 @@ class Course
         $this->rating = $rating;
     }
 
-    public function getStudents(): Collection
-    {
-        return $this->students;
-    }
-
-    public function setStudents(Collection $students): void
-    {
-        $this->students = $students;
-    }
-
     public function getNumberOfLessons(): int
     {
         $numberOfLessons = 0;
@@ -375,6 +364,16 @@ class Course
     public function setIsFree(bool $isFree): void
     {
         $this->isFree = $isFree;
+    }
+
+    public function getEnrollments(): Collection
+    {
+        return $this->enrollments;
+    }
+
+    public function setEnrollments(Collection $enrollments): void
+    {
+        $this->enrollments = $enrollments;
     }
 
 }

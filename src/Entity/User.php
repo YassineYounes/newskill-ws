@@ -44,8 +44,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable(name: 'user_roles')]
     private Collection $roles;
 
-    #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'students')]
-    private Collection $courses;
+    #[ORM\OneToMany(targetEntity: Enrollment::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private Collection $enrollments;
+
+    #[ORM\OneToMany(targetEntity: Course::class, mappedBy: 'instructor')]
+    private Collection $teachingCourses;
 
     public function __construct()
     {
@@ -175,18 +178,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCourses(): Collection
-    {
-        return $this->courses;
-    }
-
-    public function setCourses(Collection $courses): void
-    {
-        $this->courses = $courses;
-    }
-
     public function getFullName(): string
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
+    }
+
+    public function getTeachingCourses(): Collection
+    {
+        return $this->teachingCourses;
+    }
+
+    public function setTeachingCourses(Collection $teachingCourses): void
+    {
+        $this->teachingCourses = $teachingCourses;
+    }
+
+    public function getEnrollments(): Collection
+    {
+        return $this->enrollments;
+    }
+
+    public function setEnrollments(Collection $enrollments): void
+    {
+        $this->enrollments = $enrollments;
     }
 }
