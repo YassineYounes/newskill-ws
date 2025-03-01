@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,6 +30,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastName;
 
     #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $website;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $twitter;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $instagram;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $facebook;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $tiktok;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $youtube;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $linkedin;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?DateTime $createdAt;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?DateTime $updatedAt;
+
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $userName;
 
     #[ORM\Column(type: 'string', nullable: true)]
@@ -39,6 +67,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $avatar;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $title;
 
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
     #[ORM\JoinTable(name: 'user_roles')]
@@ -202,4 +233,105 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->enrollments = $enrollments;
     }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): void
+    {
+        $this->website = $website;
+    }
+
+    public function getTwitter(): ?string
+    {
+        return $this->twitter;
+    }
+
+    public function setTwitter(?string $twitter): void
+    {
+        $this->twitter = $twitter;
+    }
+
+    public function getInstagram(): ?string
+    {
+        return $this->instagram;
+    }
+
+    public function setInstagram(?string $instagram): void
+    {
+        $this->instagram = $instagram;
+    }
+
+    public function getFacebook(): ?string
+    {
+        return $this->facebook;
+    }
+
+    public function setFacebook(?string $facebook): void
+    {
+        $this->facebook = $facebook;
+    }
+
+    public function getTiktok(): ?string
+    {
+        return $this->tiktok;
+    }
+
+    public function setTiktok(?string $tiktok): void
+    {
+        $this->tiktok = $tiktok;
+    }
+
+    public function getYoutube(): ?string
+    {
+        return $this->youtube;
+    }
+
+    public function setYoutube(?string $youtube): void
+    {
+        $this->youtube = $youtube;
+    }
+
+    public function getCreatedAt(): ?DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function getLinkedin(): ?string
+    {
+        return $this->linkedin;
+    }
+
+    public function setLinkedin(?string $linkedin): void
+    {
+        $this->linkedin = $linkedin;
+    }
+
 }
