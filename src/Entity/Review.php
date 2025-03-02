@@ -26,8 +26,12 @@ class Review
     private User $reviewer;
 
     #[ORM\ManyToOne(targetEntity: Course::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private Course $course;
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Course $course;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $instructor;
 
     public function getId(): ?int
     {
@@ -79,14 +83,24 @@ class Review
         $this->reviewer = $reviewer;
     }
 
-    public function getCourse(): Course
+    public function getCourse(): ?Course
     {
         return $this->course;
     }
 
-    public function setCourse(Course $course): void
+    public function setCourse(?Course $course): void
     {
         $this->course = $course;
+    }
+
+    public function getInstructor(): ?User
+    {
+        return $this->instructor;
+    }
+
+    public function setInstructor(?User $instructor): void
+    {
+        $this->instructor = $instructor;
     }
 }
 

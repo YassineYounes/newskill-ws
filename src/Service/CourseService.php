@@ -119,6 +119,8 @@ class CourseService
             'enrollmentsCount' => count($course->getEnrollments()),
             'instructor' => [
                 'fullName' => $course->getCreatedBy()->getFullName(),
+                'title' => $course->getCreatedBy()->getTitle(),
+                'abv' => $course->getCreatedBy()->getAbv(),
                 'id' => $course->getCreatedBy()->getId(),
                 'bio' => $course->getCreatedBy()->getBio(),
             ]

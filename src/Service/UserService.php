@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Review;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +16,14 @@ class UserService
 
     public function show(User $user): JsonResponse
     {
+        $reviews = [];
+        foreach ($this->entityManager->getRepository(Review::class)->findBy(['instructor' => $user]) as $review) {
+            $reviews[] = [
+                'comment' => $review->getComment(),
+                'rating' => $review->getRating(),
+                'reviewer' => $review->getReviewer()->getFirstName() . ' ' . $review->getReviewer()->getLastName(),
+            ];
+        }
         return new JsonResponse([
             'firstName' => $user->getFirstName(),
             'lastName' => $user->getLastName(),
@@ -23,6 +32,7 @@ class UserService
             'bio' => $user->getBio(),
             'avatar' => $user->getAvatar(),
             'title' => $user->getTitle(),
+            'abv' => $user->getAbv(),
             'fullName' => $user->getFullName(),
             'createdAt' => $user->getCreatedAt()?->format('c'),
             'updatedAt' => $user->getCreatedAt()?->format('c'),
@@ -33,6 +43,8 @@ class UserService
             'youtube' => $user->getYoutube(),
             'website' => $user->getWebsite(),
             'linkedin' => $user->getLinkedin(),
+            'reviews' => $reviews,
+            'rating' => $user->getRating(),
         ]);
     }
 
@@ -43,6 +55,7 @@ class UserService
         $data = array_map(fn($instructor) => [
             'id' => $instructor->getId(),
             'bio' => $instructor->getBio(),
+            'abv' => $instructor->getAbv(),
             'fullName' => $instructor->getFullName(),
             'avatar' => $instructor->getAvatar(),
             'coursesCount' => $instructor->getTeachingCourses()->count(),

@@ -71,6 +71,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $title;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $abv;
+
+    #[ORM\Column(type: "decimal", precision: 3, scale: 1, nullable: true)]
+    private ?float $rating;
+
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
     #[ORM\JoinTable(name: 'user_roles')]
     private Collection $roles;
@@ -332,6 +338,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLinkedin(?string $linkedin): void
     {
         $this->linkedin = $linkedin;
+    }
+
+    public function getAbv(): ?string
+    {
+        return $this->abv;
+    }
+
+    public function setAbv(?string $abv): void
+    {
+        $this->abv = $abv;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?float $rating): void
+    {
+        $this->rating = $rating;
     }
 
 }
