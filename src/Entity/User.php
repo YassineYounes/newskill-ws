@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use App\Repository\UserRepository;
@@ -358,6 +359,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRating(?float $rating): void
     {
         $this->rating = $rating;
+    }
+
+    public function getTeachingCoursesCount(): ?int
+    {
+        return count($this->teachingCourses);
+    }
+
+    public function getTeachingLessonsCount(): ?int
+    {
+        $lessons = 0;
+        /** @var Course $course */
+        foreach ($this->teachingCourses as $course) {
+            $lessons += $course->getNumberOfLessons();
+        }
+        return $lessons;
+    }
+
+    public function getEnrollmentCount(): ?int
+    {
+        $students = 0;
+        /** @var Course $course */
+        foreach ($this->teachingCourses as $course) {
+            $students += count($course->getEnrollments());
+        }
+        return $students;
     }
 
 }

@@ -45,6 +45,9 @@ class UserService
             'linkedin' => $user->getLinkedin(),
             'reviews' => $reviews,
             'rating' => $user->getRating(),
+            'teachingCoursesCount' => $user->getTeachingCoursesCount(),
+            'teachingLessonsCount' => $user->getTeachingLessonsCount(),
+            'enrollmentCount' => $user->getEnrollmentCount(),
         ]);
     }
 

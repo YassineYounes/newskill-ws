@@ -49,11 +49,6 @@ class CourseService
             'isFree' => $course->isFree(),
             'createdAt' => $course->getCreatedAt()->format('c'),
             'updatedAt' => $course->getCreatedAt()->format('c'),
-            'instructor' => [
-                'fullName' => $course->getCreatedBy()->getFullName(),
-                'id' => $course->getCreatedBy()->getId(),
-                'bio' => $course->getCreatedBy()->getBio(),
-            ],
             'instructorId' => $course->getCreatedBy()->getId(),
             'isCertified' => $course->isCertified(),
             'sections' => $sections,
@@ -118,11 +113,13 @@ class CourseService
             'isFree' => $course->isFree(),
             'enrollmentsCount' => count($course->getEnrollments()),
             'instructor' => [
+                'avatar' => $course->getCreatedBy()->getAvatar(),
                 'fullName' => $course->getCreatedBy()->getFullName(),
                 'title' => $course->getCreatedBy()->getTitle(),
                 'abv' => $course->getCreatedBy()->getAbv(),
                 'id' => $course->getCreatedBy()->getId(),
                 'bio' => $course->getCreatedBy()->getBio(),
+                'rating' => $course->getCreatedBy()->getRating(),
             ]
         ], $courses);
 
