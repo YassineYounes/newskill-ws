@@ -112,6 +112,7 @@ class CourseService
             'reviewsCount' => count($course->getReviews()),
             'isFree' => $course->isFree(),
             'enrollmentsCount' => count($course->getEnrollments()),
+            'instructorFullName' => $course->getCreatedBy()->getFullName(),
             'instructor' => [
                 'avatar' => $course->getCreatedBy()->getAvatar(),
                 'fullName' => $course->getCreatedBy()->getFullName(),

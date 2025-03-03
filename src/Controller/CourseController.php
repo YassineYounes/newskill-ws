@@ -30,6 +30,13 @@ class CourseController extends AbstractController
         return $this->courseService->list();
     }
 
+
+    #[Route('/trending', name: 'trending', methods: ['GET'])]
+    public function trending(): JsonResponse
+    {
+        return $this->courseService->list();
+    }
+
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(int $id): JsonResponse
     {

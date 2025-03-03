@@ -17,6 +17,9 @@ class Category
     #[ORM\Column(type: "string", length: 100, unique: true)]
     private string $name;
 
+    #[ORM\Column(type: "string", length: 100, nullable: true)]
+    private string $logo;
+
     #[ORM\ManyToMany(targetEntity: Course::class, mappedBy: 'categories')]
     private Collection $courses;
 
@@ -48,6 +51,16 @@ class Category
     public function setCourses(Collection $courses): void
     {
         $this->courses = $courses;
+    }
+
+    public function getLogo(): string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(string $logo): void
+    {
+        $this->logo = $logo;
     }
 }
 

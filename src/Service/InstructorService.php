@@ -30,14 +30,32 @@ class InstructorService
     {
         /** @var User[] $instructors */
         $instructors = $this->entityManager->getRepository(User::class)->findInstructorsWithPublishedCourses();
+        return $this->mappedInstructorData($instructors);
+    }
+
+    public function list()
+    {
+        /** @var User[] $instructors */
+        $instructors = $this->entityManager->getRepository(User::class)->findAll();
+
+        return $this->mappedInstructorData($instructors);
+    }
+
+    /**
+     * @param array $instructors
+     * @return JsonResponse
+     */
+    public function mappedInstructorData(array $instructors): JsonResponse
+    {
         $data = array_map(fn($instructor) => [
             'id' => $instructor->getId(),
             'bio' => $instructor->getBio(),
             'fullName' => $instructor->getFullName(),
+            'title' => $instructor->getTitle(),
             'avatar' => $instructor->getAvatar(),
-            'coursesCount' => $instructor->getTeachingCourses()->count(),
+            'teachingCoursesCount' => $instructor->getTeachingCourses()->count(),
+            'enrollmentCount' => $instructor->getEnrollmentCount(),
         ], $instructors);
-
         return new JsonResponse($data);
     }
 
